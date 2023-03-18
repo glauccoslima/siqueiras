@@ -1,0 +1,157 @@
+/* Estilo da fonte do body */
+body {
+    font-family: Roboto, sans-serif;
+}
+
+/* Estilo da barra de navegação */
+.navbar {
+    background-color: #e2431c;
+}
+
+/* Estilo dos links ativos do cabeçalho */
+#cabecalho .nav .nav-link.active {
+    background-color: #fff;
+    color: #e2431c;
+}
+
+/* Estilo dos links e marca da barra de navegação */
+#cabecalho .nav .nav-link,
+.navbar-brand,
+.navbar-brand:hover,
+.nav-cardapio .nav-link.active:hover {
+    color: #fff;
+}
+
+/* Estilo do botão de menu responsivo */
+.navbar-toggler {
+    background-color: #f7f7f7;
+}
+
+/* Estilo dos títulos das seções */
+h1.section-title {
+    font-family: 'Pacifico', sans-serif;
+}
+
+.section-title {
+    font-family: Roboto, cursive;
+}
+
+/* Estilo das seções "Sobre o restaurante" e "Cardápio" */
+#sobre-o-restaurante,
+#cardapio {
+    background-color: #f7f7f7;
+}
+
+/* Estilo dos textos coloridos */
+.text-colored {
+    color: #e2431c;
+}
+
+/* Estilo dos links ativos e botão de "Fale Conosco" */
+.nav-cardapio .nav-link.active,
+#fale-conosco button {
+    background-color: #e2431c;
+    color: #fff;
+}
+
+/* Efeito de hover nos links do cardápio */
+.nav-cardapio .nav-link:hover {
+    color: #e2431c;
+}
+
+/* Estilo da lista de links de mídias sociais */
+.social-links li {
+    list-style: none;
+    display: inline;
+}
+
+/* Estilo dos links das mídias sociais */
+.social-links a {
+    text-decoration: none;
+}
+
+/* Estilo dos erros do formulário */
+.error {
+    color: red;
+}
+
+/* Estilo do foco visível no botão de enviar */
+.btn-botao-enviar:focus-visible {
+    outline: 2px dashed #e2431c;
+    outline-offset: 2px;
+}
+
+/* Estilo do botão de enviar */
+.btn-botao-enviar {
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    transform: scale(0.9);
+    font-size: 16px;
+}
+
+/* Estilo do botão primário dentro do elemento "Fale Conosco" */
+#fale-conosco .btn-primary {
+    background-color: #e2431c;
+    border-color: #e2431c;
+    color: #FFFFFF;
+    border-radius: 0.4em;
+    padding: 7px 24px;
+}
+
+/* Efeito de hover no botão primário */
+#fale-conosco .btn-primary:hover {
+    background-color: #c45539;
+    border-color: #c45539;
+}
+
+/* Efeito de pressionado no botão primário */
+#fale-conosco .btn-primary:active {
+    background-color: #e2431c;
+    border-color: #e2431c;
+    transform: translateY(2px);
+}
+
+/* Estilo dos ícones das mídias sociais */
+.custom-youtube-icon {
+    color: #FF0000;
+}
+
+.custom-facebook-icon {
+    color: #1877F2;
+}
+
+.custom-instagram-icon {
+    color: #E1306C;
+}
+
+.custom-whatsapp-icon {
+    color: #25D366;
+}
+
+/* Estilo do container do mapa */
+.map-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    /* Mantém a proporção do mapa 16:9 */
+    height: 0;
+    overflow: hidden;
+}
+
+/* Estilo do iframe do mapa */
+.map-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* Estilos específicos para dispositivos com largura máxima de 767px */
+@media (max-width: 767px) {
+
+    /* Estilo das imagens do carrossel */
+    .carousel-item img {
+        height: 280px;
+    }
+}
