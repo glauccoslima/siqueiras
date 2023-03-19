@@ -169,7 +169,6 @@ h1.section-title {
 
 /* Estilos específicos para dispositivos com largura máxima de 767px */
 @media (max-width: 767px) {
-
     #eventos {
         scroll-margin-top: 100px;
     }
@@ -190,5 +189,4 @@ h1.section-title {
     .carousel-item img {
         height: 280px;
     }
-
 }
