@@ -23,7 +23,6 @@ body {
     scroll-margin-top: 88px;
 }
 
-
 /* Estilo da barra de navegação */
 .navbar {
     background-color: #e2431c;
@@ -171,8 +170,25 @@ h1.section-title {
 /* Estilos específicos para dispositivos com largura máxima de 767px */
 @media (max-width: 767px) {
 
+    #eventos {
+        scroll-margin-top: 100px;
+    }
+
+    #sobre-o-restaurante {
+        scroll-margin-top: 100px;
+    }
+
+    #cardapio {
+        scroll-margin-top: 100px;
+    }
+
+    #fale-conosco {
+        scroll-margin-top: 100px;
+    }
+
     /* Estilo das imagens do carrossel */
     .carousel-item img {
         height: 280px;
     }
+
 }
