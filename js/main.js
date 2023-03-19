@@ -120,7 +120,7 @@ $(document).ready(function () {
                 // Anima o scroll suave até a posição do elemento destino menos a altura do cabeçalho
                 $('html, body').stop().animate({
                     scrollTop: target.offset().top - headerHeight
-                }, 1000); // Ajuste a duração do scroll suave aqui (em milissegundos)
+                }, 2000); // Ajuste a duração do scroll suave aqui (em milissegundos)
             }
         });
 
