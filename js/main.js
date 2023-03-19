@@ -99,4 +99,73 @@ $(document).ready(function () {
             $(form).find(".is-valid, .is-invalid").removeClass("is-valid is-invalid");
         },
     });
+    // Inicializa o código assim que o documento estiver pronto
+    $(document).ready(function () {
+
+        // Adiciona um evento de clique nos links com atributo data-bs-smooth-scroll="true"
+        $('a[data-bs-smooth-scroll="true"]').on('click', function (event) {
+
+            // Previne o comportamento padrão do link (pular diretamente para a seção)
+            event.preventDefault();
+
+            // Obtém o elemento destino (seção) usando o valor do atributo href
+            var target = $(this.getAttribute('href'));
+
+            // Calcula a altura do cabeçalho (navbar)
+            var headerHeight = $('.navbar').outerHeight();
+
+            // Verifica se o elemento destino existe
+            if (target.length) {
+
+                // Anima o scroll suave até a posição do elemento destino menos a altura do cabeçalho
+                $('html, body').stop().animate({
+                    scrollTop: target.offset().top - headerHeight
+                }, 1000); // Ajuste a duração do scroll suave aqui (em milissegundos)
+            }
+        });
+
+        // Função para atualizar a classe 'active' dos links de navegação
+        function updateActiveNavLinks() {
+            // Distância do scroll atual mais um pequeno deslocamento (1px)
+            var scrollPos = $(document).scrollTop() + 1;
+            var windowHeight = $(window).height();
+            var documentHeight = $(document).height();
+
+            // Verifica se a posição de rolagem está próxima do final da página (a 5 pixels do final)
+            var isNearBottom = (scrollPos + windowHeight + 5) >= documentHeight;
+
+            // Calcula a altura do cabeçalho (navbar)
+            var headerHeight = $('.navbar').outerHeight();
+
+            // Itera por todos os links de navegação
+            $('a[data-bs-smooth-scroll="true"]').each(function (index, element) {
+                var target = $(this.getAttribute('href'));
+                var targetTop = target.offset().top - headerHeight;
+                var targetBottom = targetTop + target.outerHeight();
+
+                if (isNearBottom) {
+                    if (index === $('a[data-bs-smooth-scroll="true"]').length - 1) {
+                        // Adiciona a classe 'active' apenas ao último link de navegação
+                        $(this).addClass('active');
+                    } else {
+                        // Remove a classe 'active' dos outros links
+                        $(this).removeClass('active');
+                    }
+                } else if (scrollPos >= targetTop && scrollPos < targetBottom) {
+                    // Adiciona a classe 'active' ao link da seção atual
+                    $(this).addClass('active');
+                } else {
+                    // Remove a classe 'active' dos outros links
+                    $(this).removeClass('active');
+                }
+            });
+        }
+
+        // Atualiza a classe 'active' dos links de navegação ao carregar a página
+        updateActiveNavLinks();
+
+        // Atualiza a classe 'active' dos links de navegação quando o usuário rola a página
+        $(document).on('scroll', updateActiveNavLinks);
+    });
+
 });
