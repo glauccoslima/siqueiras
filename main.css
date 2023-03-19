@@ -3,6 +3,27 @@ body {
     font-family: Roboto, sans-serif;
 }
 
+/* Define o scroll-margin-top para a seção de eventos, para que o espaço entre o topo da janela e a seção seja de 88px */
+#eventos {
+    scroll-margin-top: 88px;
+}
+
+/* Define o scroll-margin-top para a seção sobre-o-restaurante, para que o espaço entre o topo da janela e a seção seja de 52px */
+#sobre-o-restaurante {
+    scroll-margin-top: 52px;
+}
+
+/* Define o scroll-margin-top para a seção de cardapio, para que o espaço entre o topo da janela e a seção seja de 88px */
+#cardapio {
+    scroll-margin-top: 88px;
+}
+
+/* Define o scroll-margin-top para a seção de fale-conosco, para que o espaço entre o topo da janela e a seção seja de 88px */
+#fale-conosco {
+    scroll-margin-top: 88px;
+}
+
+
 /* Estilo da barra de navegação */
 .navbar {
     background-color: #e2431c;
