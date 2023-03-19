@@ -116,11 +116,16 @@ $(document).ready(function () {
 
             // Verifica se o elemento destino existe
             if (target.length) {
+                // Verifica se o link clicado é o último nav-link
+                var isLastNavLink = $(this).is($('a[data-bs-smooth-scroll="true"]').last());
+
+                // Define a duração do scroll suave conforme o link clicado
+                var scrollDuration = isLastNavLink ? 2000 : 2000;
 
                 // Anima o scroll suave até a posição do elemento destino menos a altura do cabeçalho
                 $('html, body').stop().animate({
                     scrollTop: target.offset().top - headerHeight
-                }, 2000); // Ajuste a duração do scroll suave aqui (em milissegundos)
+                }, scrollDuration);
             }
         });
 
