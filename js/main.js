@@ -137,13 +137,18 @@ $(document).ready(function () {
         // Adiciona um evento de clique nos links com atributo data-bs-smooth-scroll="true"
         $('a[data-bs-smooth-scroll="true"]').on('click', function (event) {
             event.preventDefault();
+            var clickedLink = $(this);
             var target = $($(this).attr('href'));
             var headerHeight = $('.navbar').outerHeight();
 
             if (target.length) {
                 $('html, body').stop().animate({
                     scrollTop: target.offset().top - headerHeight
-                }, 2000); // Mantém a mesma duração para todos os links
+                }, 2000, function () {
+                    // Atualiza a classe 'active' dos links de navegação após a animação de rolagem ser concluída
+                    $('a[data-bs-smooth-scroll="true"]').removeClass('active');
+                    clickedLink.addClass('active');
+                }); // Mantém a mesma duração para todos os links
             }
         });
 
