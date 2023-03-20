@@ -101,6 +101,20 @@ $(document).ready(function () {
     });
 
     $(document).ready(function () {
+        // Função debounce
+        function debounce(func, wait) {
+            let timeout;
+            return function () {
+                const context = this, args = arguments;
+                const later = function () {
+                    timeout = null;
+                    func.apply(context, args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
         // Função para atualizar a classe 'active' dos links de navegação
         function updateActiveNavLinks() {
             var scrollPos = $(document).scrollTop() + 1;
@@ -141,24 +155,9 @@ $(document).ready(function () {
             var headerHeight = $('.navbar').outerHeight();
 
             if (target.length) {
-                var start = null;
-                var currentPosition = window.scrollY;
-                var targetPosition = target.offset().top - headerHeight;
-                var distance = targetPosition - currentPosition;
-                var duration = 2000;
-
-                function step(timestamp) {
-                    if (!start) start = timestamp;
-                    var progress = timestamp - start;
-                    var position = currentPosition + distance * (progress / duration);
-                    window.scrollTo(0, position);
-
-                    if (progress < duration) {
-                        requestAnimationFrame(step);
-                    }
-                }
-
-                requestAnimationFrame(step);
+                $('html, body').stop().animate({
+                    scrollTop: target.offset().top - headerHeight
+                }, 2000); // Mantém a mesma duração para todos os links
             }
         });
 
@@ -166,7 +165,7 @@ $(document).ready(function () {
         updateActiveNavLinks();
 
         // Atualiza a classe 'active' dos links de navegação quando o usuário rola a página
-        $(document).on('scroll', updateActiveNavLinks);
+        $(document).on('scroll', debounce(updateActiveNavLinks, 100));
     });
 
 });
