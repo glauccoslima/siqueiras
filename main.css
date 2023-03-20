@@ -8,6 +8,14 @@ body {
     background-color: #e2431c;
 }
 
+#sobre-o-restaurante {
+    background-color: #f7f7f7;
+}
+
+#cardapio {
+    background-color: #f7f7f7;
+}
+
 /* Estilo dos links ativos do cabeçalho */
 #cabecalho .nav .nav-link.active {
     background-color: #fff;
