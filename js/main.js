@@ -141,9 +141,24 @@ $(document).ready(function () {
             var headerHeight = $('.navbar').outerHeight();
 
             if (target.length) {
-                $('html, body').stop().animate({
-                    scrollTop: target.offset().top - headerHeight
-                }, 2000); // Mantém a mesma duração para todos os links
+                var start = null;
+                var currentPosition = window.scrollY;
+                var targetPosition = target.offset().top - headerHeight;
+                var distance = targetPosition - currentPosition;
+                var duration = 2000;
+
+                function step(timestamp) {
+                    if (!start) start = timestamp;
+                    var progress = timestamp - start;
+                    var position = currentPosition + distance * (progress / duration);
+                    window.scrollTo(0, position);
+
+                    if (progress < duration) {
+                        requestAnimationFrame(step);
+                    }
+                }
+
+                requestAnimationFrame(step);
             }
         });
 
