@@ -48,8 +48,7 @@ h1.section-title {
 }
 
 /* Estilo dos links ativos e botão de "Fale Conosco" */
-.nav-cardapio .nav-link.active,
-#fale-conosco button {
+.nav-cardapio .nav-link.active {
     background-color: #e2431c;
     color: #fff;
 }
