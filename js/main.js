@@ -101,6 +101,20 @@ $(document).ready(function () {
     });
 
     $(document).ready(function () {
+        // Função debounce
+        function debounce(func, wait) {
+            let timeout;
+            return function () {
+                const context = this, args = arguments;
+                const later = function () {
+                    timeout = null;
+                    func.apply(context, args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
         // Função para atualizar a classe 'active' dos links de navegação
         function updateActiveNavLinks() {
             var scrollPos = $(document).scrollTop() + 1;
@@ -151,7 +165,7 @@ $(document).ready(function () {
         updateActiveNavLinks();
 
         // Atualiza a classe 'active' dos links de navegação quando o usuário rola a página
-        $(document).on('scroll', updateActiveNavLinks);
+        $(document).on('scroll', debounce(updateActiveNavLinks, 100));
     });
 
 });
