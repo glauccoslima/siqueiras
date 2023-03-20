@@ -99,72 +99,53 @@ $(document).ready(function () {
             $(form).find(".is-valid, .is-invalid").removeClass("is-valid is-invalid");
         },
     });
-    // Inicializa o código assim que o documento estiver pronto
+
     $(document).ready(function () {
-
-        // Adiciona um evento de clique nos links com atributo data-bs-smooth-scroll="true"
-        $('a[data-bs-smooth-scroll="true"]').on('click', function (event) {
-
-            // Previne o comportamento padrão do link (pular diretamente para a seção)
-            event.preventDefault();
-
-            // Obtém o elemento destino (seção) usando o valor do atributo href
-            var target = $(this.getAttribute('href'));
-
-            // Calcula a altura do cabeçalho (navbar)
-            var headerHeight = $('.navbar').outerHeight();
-
-            // Verifica se o elemento destino existe
-            if (target.length) {
-                // Verifica se o link clicado é o último nav-link
-                var isLastNavLink = $(this).is($('a[data-bs-smooth-scroll="true"]').last());
-
-                // Define a duração do scroll suave conforme o link clicado
-                var scrollDuration = isLastNavLink ? 2000 : 2000;
-
-                // Anima o scroll suave até a posição do elemento destino menos a altura do cabeçalho
-                $('html, body').stop().animate({
-                    scrollTop: target.offset().top - headerHeight
-                }, scrollDuration);
-            }
-        });
-
         // Função para atualizar a classe 'active' dos links de navegação
         function updateActiveNavLinks() {
-            // Distância do scroll atual mais um pequeno deslocamento (1px)
             var scrollPos = $(document).scrollTop() + 1;
             var windowHeight = $(window).height();
             var documentHeight = $(document).height();
-
-            // Verifica se a posição de rolagem está próxima do final da página (a 5 pixels do final)
             var isNearBottom = (scrollPos + windowHeight + 5) >= documentHeight;
-
-            // Calcula a altura do cabeçalho (navbar)
             var headerHeight = $('.navbar').outerHeight();
 
-            // Itera por todos os links de navegação
-            $('a[data-bs-smooth-scroll="true"]').each(function (index, element) {
+            // Remover a classe 'active' de todos os nav-links
+            $('a[data-bs-smooth-scroll="true"]').removeClass('active');
+
+            // Verificar se o scrollPos está no último link antes de verificar os outros links
+            var lastNavLink = $('a[data-bs-smooth-scroll="true"]').last();
+            var lastTarget = $(lastNavLink.attr('href'));
+            var lastTargetTop = lastTarget.offset().top - headerHeight;
+            if (isNearBottom || scrollPos >= lastTargetTop) {
+                lastNavLink.addClass('active');
+                return;
+            }
+
+            $('a[data-bs-smooth-scroll="true"]').each(function () {
                 var target = $(this.getAttribute('href'));
                 var targetTop = target.offset().top - headerHeight;
                 var targetBottom = targetTop + target.outerHeight();
+                var isActive = scrollPos >= targetTop && scrollPos < targetBottom;
 
-                if (isNearBottom) {
-                    if (index === $('a[data-bs-smooth-scroll="true"]').length - 1) {
-                        // Adiciona a classe 'active' apenas ao último link de navegação
-                        $(this).addClass('active');
-                    } else {
-                        // Remove a classe 'active' dos outros links
-                        $(this).removeClass('active');
-                    }
-                } else if (scrollPos >= targetTop && scrollPos < targetBottom) {
-                    // Adiciona a classe 'active' ao link da seção atual
+                if (isActive) {
                     $(this).addClass('active');
-                } else {
-                    // Remove a classe 'active' dos outros links
-                    $(this).removeClass('active');
+                    return false; // Encerra o loop each
                 }
             });
         }
+
+        // Adiciona um evento de clique nos links com atributo data-bs-smooth-scroll="true"
+        $('a[data-bs-smooth-scroll="true"]').on('click', function (event) {
+            event.preventDefault();
+            var target = $($(this).attr('href'));
+            var headerHeight = $('.navbar').outerHeight();
+
+            if (target.length) {
+                $('html, body').stop().animate({
+                    scrollTop: target.offset().top - headerHeight
+                }, 2000); // Mantém a mesma duração para todos os links
+            }
+        });
 
         // Atualiza a classe 'active' dos links de navegação ao carregar a página
         updateActiveNavLinks();
@@ -172,5 +153,6 @@ $(document).ready(function () {
         // Atualiza a classe 'active' dos links de navegação quando o usuário rola a página
         $(document).on('scroll', updateActiveNavLinks);
     });
+
 
 });
