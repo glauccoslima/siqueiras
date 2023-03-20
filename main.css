@@ -22,11 +22,6 @@ body {
     color: #fff;
 }
 
-/* Estilo do botão de menu responsivo */
-.navbar-toggler {
-    background-color: #f7f7f7;
-}
-
 /* Estilo dos títulos das seções */
 h1.section-title {
     font-family: 'Pacifico', sans-serif;
@@ -34,12 +29,6 @@ h1.section-title {
 
 .section-title {
     font-family: Roboto, cursive;
-}
-
-/* Estilo das seções "Sobre o restaurante" e "Cardápio" */
-#sobre-o-restaurante,
-#cardapio {
-    background-color: #f7f7f7;
 }
 
 /* Estilo dos textos coloridos */
