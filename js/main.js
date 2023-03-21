@@ -1,4 +1,5 @@
 const onReady = function onReadyFunction() {
+  // Máscara do telefone
   const SPMaskBehavior = function maskBehavior(val) {
     return val.replace(/\D/g, "").length === 11
       ? "(00) 0 0000-0000"
@@ -11,8 +12,10 @@ const onReady = function onReadyFunction() {
     },
   };
 
+  // Aplica a máscara ao campo telefone
   $("#telefone").mask(SPMaskBehavior, spOptions);
 
+  // Adiciona método de validação para nome completo
   $.validator.addMethod(
     "nomeCompleto",
     function validateNomeCompleto(value, element) {
@@ -21,6 +24,7 @@ const onReady = function onReadyFunction() {
     "Por favor, informe o nome e sobrenome."
   );
 
+  // Função para capitalizar nomes
   function capitalizeName(name) {
     const prepositionsAndArticles = [
       "e",
@@ -44,6 +48,7 @@ const onReady = function onReadyFunction() {
       });
   }
 
+  // Adiciona método de validação para email
   $.validator.addMethod(
     "emailStrict",
     function validateEmailStrict(value, element) {
@@ -55,11 +60,13 @@ const onReady = function onReadyFunction() {
     "Por favor, informe um endereço de email válido."
   );
 
+  // Evento para capitalizar o nome ao sair do campo
   $("#nome").on("blur", function onNomeBlur() {
     const capitalized = capitalizeName($(this).val());
     $(this).val(capitalized);
   });
 
+  // Adiciona método de validação para mensagem mínima
   $.validator.addMethod(
     "mensagemMinima",
     function validateMensagemMinima(value, element) {
@@ -69,6 +76,7 @@ const onReady = function onReadyFunction() {
     "Por favor, escreva uma mensagem com pelo menos 3 palavras."
   );
 
+  // Configura o plugin de validação
   $("#meuFormulario").validate({
     rules: {
       nome: {
@@ -87,23 +95,29 @@ const onReady = function onReadyFunction() {
         mensagemMinima: true,
       },
     },
-
     messages: {
       telefone: "Por favor, informe o número de telefone ou celular.",
     },
+    // Destaca elementos inválidos
     highlight(element) {
       $(element).addClass("is-invalid").removeClass("is-valid");
     },
+    // Remove o destaque dos elementos válidos
     unhighlight(element) {
       $(element).addClass("is-valid").removeClass("is-invalid");
     },
+    // Ação a ser realizada quando o formulário for enviado com sucesso
     submitHandler(form) {
+      // Exibe a mensagem de sucesso
       $("#success-message").fadeIn(500).delay(7000).fadeOut(500);
+      // Reseta o formulário
       $(form)[0].reset();
+      // Remove as classes de validação dos campos do formulário
       $(form).find(".is-valid, .is-invalid").removeClass("is-valid is-invalid");
     },
   });
 
+  // Atualiza os links ativos da navegação
   const updateActiveNavLinks = function updateActiveNavLinksFunction() {
     const scrollPos = $(document).scrollTop() + 1;
     const windowHeight = $(window).height();
@@ -132,6 +146,7 @@ const onReady = function onReadyFunction() {
     }
   };
 
+  // Evento de clique nos links da navegação
   $('a[data-bs-smooth-scroll="true"]').on(
     "click",
     function onClickNavLink(event) {
@@ -151,9 +166,12 @@ const onReady = function onReadyFunction() {
     }
   );
 
+  // Atualiza os links ativos da navegação
   updateActiveNavLinks();
 
+  // Atualiza os links ativos da navegação durante a rolagem
   $(document).on("scroll", updateActiveNavLinks);
 };
 
+// Executa a função onReady quando o DOM estiver pronto
 jQuery(onReady);
