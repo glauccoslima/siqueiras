@@ -161,7 +161,7 @@ const onReady = function onReadyFunction() {
         const distance = Math.abs(
           target.offset().top - headerHeight - $(window).scrollTop()
         );
-        const speed = 1000; // Ajuste este valor para alterar a velocidade de rolagem (pixels por segundo)
+        const speed = 500; // Ajuste este valor para alterar a velocidade de rolagem (pixels por segundo)
         const animationTime = (distance / speed) * 1000;
 
         $("html, body")
