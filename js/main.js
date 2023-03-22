@@ -161,7 +161,7 @@ const onReady = function onReadyFunction() {
               scrollTop: target.offset().top - headerHeight,
             },
             2000,
-            "easeOutSine" // Adicione o easing desejado aqui
+            "easeOutQuint" // Adicione o easing desejado aqui
           );
       }
     }
