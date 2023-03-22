@@ -153,15 +153,20 @@ const onReady = function onReadyFunction() {
       event.preventDefault();
       const target = $($(this).attr("href"));
       const headerHeight = $(".navbar").outerHeight();
+
+      // Adicione um valor de ajuste (positivo ou negativo) para a posição de rolagem
+      const adjustment = 0; // Ajuste este valor conforme necessário
+
       if (target.length) {
         $("html, body")
           .stop()
           .animate(
             {
-              scrollTop: target.offset().top - headerHeight,
+              // Adicione o valor de ajuste à posição de rolagem
+              scrollTop: target.offset().top - headerHeight + adjustment,
             },
             2000,
-            "easeOutQuint" // Adicione o easing desejado aqui
+            "easeOutSine"
           );
       }
     }
