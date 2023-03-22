@@ -166,7 +166,7 @@ const onReady = function onReadyFunction() {
               scrollTop: target.offset().top - headerHeight + adjustment,
             },
             2000,
-            "easeOutSine"
+            "easeInOutSine" // Função de easing para uma animação mais suave
           );
       }
     }
