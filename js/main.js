@@ -160,8 +160,9 @@ const onReady = function onReadyFunction() {
             {
               scrollTop: target.offset().top - headerHeight,
             },
-            2000
-          ); // Mantém a mesma duração para todos os links
+            2000,
+            "easeOutSine" // Adicione o easing desejado aqui
+          );
       }
     }
   );
