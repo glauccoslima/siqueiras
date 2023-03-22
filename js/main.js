@@ -158,6 +158,12 @@ const onReady = function onReadyFunction() {
       const adjustment = 0; // Ajuste este valor conforme necessário
 
       if (target.length) {
+        const distance = Math.abs(
+          target.offset().top - headerHeight - $(window).scrollTop()
+        );
+        const speed = 1000; // Ajuste este valor para alterar a velocidade de rolagem (pixels por segundo)
+        const animationTime = (distance / speed) * 1000;
+
         $("html, body")
           .stop()
           .animate(
@@ -165,7 +171,7 @@ const onReady = function onReadyFunction() {
               // Adicione o valor de ajuste à posição de rolagem
               scrollTop: target.offset().top - headerHeight + adjustment,
             },
-            2000,
+            animationTime,
             "easeInOutSine" // Função de easing para uma animação mais suave
           );
       }
