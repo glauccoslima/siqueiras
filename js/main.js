@@ -117,34 +117,6 @@ const onReady = function onReadyFunction() {
     },
   });
 
-  // Função para detectar dispositivos móveis
-  function isMobileDevice() {
-    return (
-      typeof window.orientation !== "undefined" ||
-      navigator.userAgent.indexOf("IEMobile") !== -1
-    );
-  }
-
-  // Função para atualizar o link ativo durante a rolagem
-  function setActiveNavLinkOnScroll() {
-    const scrollPos = $(document).scrollTop() + $(".navbar").outerHeight() + 1;
-    $('a[data-bs-smooth-scroll="true"]').each(
-      function updateActiveNavLinkEach() {
-        const link = $(this);
-        const section = $(link.attr("href"));
-        if (
-          section.position().top <= scrollPos &&
-          section.position().top + section.height() > scrollPos
-        ) {
-          $('a[data-bs-smooth-scroll="true"]').removeClass("active");
-          link.addClass("active");
-        } else {
-          link.removeClass("active");
-        }
-      }
-    );
-  }
-
   // Atualiza os links ativos da navegação
   const updateActiveNavLinks = function updateActiveNavLinksFunction() {
     const scrollPos = $(document).scrollTop() + 1;
@@ -179,7 +151,6 @@ const onReady = function onReadyFunction() {
     "click",
     function onClickNavLink(event) {
       event.preventDefault();
-      const link = $(this);
       const target = $($(this).attr("href"));
       const headerHeight = $(".navbar").outerHeight();
 
@@ -193,11 +164,6 @@ const onReady = function onReadyFunction() {
         const speed = 500; // Ajuste este valor para alterar a velocidade de rolagem (pixels por segundo)
         const animationTime = (distance / speed) * 1000;
 
-        if (isMobileDevice()) {
-          // Remova a classe "active" dos outros links antes de iniciar a animação (apenas em dispositivos móveis)
-          $('a[data-bs-smooth-scroll="true"]').removeClass("active");
-        }
-
         $("html, body")
           .stop()
           .animate(
@@ -206,13 +172,7 @@ const onReady = function onReadyFunction() {
               scrollTop: target.offset().top - headerHeight + adjustment,
             },
             animationTime,
-            "easeInOutSine", // Função de easing para uma animação mais suave
-            // Adicione um evento de callback para adicionar a classe "active" ao link após a animação ser concluída (apenas em dispositivos móveis)
-            function onScrollAnimationComplete() {
-              if (isMobileDevice()) {
-                link.addClass("active");
-              }
-            }
+            "easeOutSine" // Função de easing para uma animação mais suave
           );
       }
     }
@@ -222,10 +182,8 @@ const onReady = function onReadyFunction() {
   updateActiveNavLinks();
 
   // Atualiza os links ativos da navegação durante a rolagem
-  $(document).on("scroll", function updateActiveNavLinkOnScrollWrapper() {
-    setActiveNavLinkOnScroll();
-  });
-}; // <- Adicione a chave de fechamento aqui
+  $(document).on("scroll", updateActiveNavLinks);
+};
 
 // Executa a função onReady quando o DOM estiver pronto
 jQuery(onReady);
