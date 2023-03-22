@@ -146,6 +146,23 @@ const onReady = function onReadyFunction() {
     }
   };
 
+  function setActiveNavLinkOnScroll() {
+    const scrollPos = $(document).scrollTop() + $(".navbar").outerHeight() + 1;
+    $('a[data-bs-smooth-scroll="true"]').each(function () {
+      const link = $(this);
+      const section = $(link.attr("href"));
+      if (
+        section.position().top <= scrollPos &&
+        section.position().top + section.height() > scrollPos
+      ) {
+        $('a[data-bs-smooth-scroll="true"]').removeClass("active");
+        link.addClass("active");
+      } else {
+        link.removeClass("active");
+      }
+    });
+  }
+
   // Evento de clique nos links da navegação
   $('a[data-bs-smooth-scroll="true"]').on(
     "click",
@@ -164,9 +181,6 @@ const onReady = function onReadyFunction() {
         const speed = 500; // Ajuste este valor para alterar a velocidade de rolagem (pixels por segundo)
         const animationTime = (distance / speed) * 1000;
 
-        // Desativar o estado 'active' nos outros links antes da animação começar
-        $('a[data-bs-smooth-scroll="true"]').removeClass("active");
-
         $("html, body")
           .stop()
           .animate(
@@ -176,12 +190,7 @@ const onReady = function onReadyFunction() {
             },
             animationTime,
             "easeInOutSine" // Função de easing para uma animação mais suave
-          )
-          .promise()
-          .done(() => {
-            // Ativar o estado 'active' no link atual após a animação ser concluída
-            $(this).addClass("active");
-          });
+          );
       }
     }
   );
@@ -190,7 +199,7 @@ const onReady = function onReadyFunction() {
   updateActiveNavLinks();
 
   // Atualiza os links ativos da navegação durante a rolagem
-  $(document).on("scroll", updateActiveNavLinks);
+  $(document).on("scroll", setActiveNavLinkOnScroll);
 };
 
 // Executa a função onReady quando o DOM estiver pronto
