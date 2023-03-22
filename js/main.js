@@ -164,6 +164,9 @@ const onReady = function onReadyFunction() {
         const speed = 500; // Ajuste este valor para alterar a velocidade de rolagem (pixels por segundo)
         const animationTime = (distance / speed) * 1000;
 
+        // Desativar o estado 'active' nos outros links antes da animação começar
+        $('a[data-bs-smooth-scroll="true"]').removeClass("active");
+
         $("html, body")
           .stop()
           .animate(
@@ -173,7 +176,12 @@ const onReady = function onReadyFunction() {
             },
             animationTime,
             "easeInOutSine" // Função de easing para uma animação mais suave
-          );
+          )
+          .promise()
+          .done(() => {
+            // Ativar o estado 'active' no link atual após a animação ser concluída
+            $(this).addClass("active");
+          });
       }
     }
   );
