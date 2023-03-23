@@ -19,7 +19,7 @@ const onReady = function onReadyFunction() {
   $.validator.addMethod(
     "nomeCompleto",
     function validateNomeCompleto(value, element) {
-      return this.optional(element) || /^[^\s]+(\s+[^\s]+)+$/.test(value);
+      return this.optional(element) || /^[^\s]+(\s+[^\s]+)+\s*$/.test(value); // Adicione '\s*' no final da regex
     },
     "Por favor, informe o nome e sobrenome."
   );
@@ -62,7 +62,8 @@ const onReady = function onReadyFunction() {
 
   // Evento para capitalizar o nome ao sair do campo
   $("#nome").on("blur", function onNomeBlur() {
-    const capitalized = capitalizeName($(this).val());
+    const trimmedValue = $(this).val().trim(); // Adicione esta linha para remover os espaços extras
+    const capitalized = capitalizeName(trimmedValue); // Altere '$(this).val()' para 'trimmedValue'
     $(this).val(capitalized);
   });
 
