@@ -1,20 +1,4 @@
 const onReady = function onReadyFunction() {
-  // Máscara do telefone
-  const SPMaskBehavior = function maskBehavior(val) {
-    return val.replace(/\D/g, "").length === 11
-      ? "(00) 0 0000-0000"
-      : "(00) 0000-00009";
-  };
-
-  const spOptions = {
-    onKeyPress(val, e, field, options) {
-      field.mask(SPMaskBehavior(val), options);
-    },
-  };
-
-  // Aplica a máscara ao campo telefone
-  $("#telefone").mask(SPMaskBehavior, spOptions);
-
   // Adiciona método de validação para nome completo
   $.validator.addMethod(
     "nomeCompleto",
@@ -48,26 +32,40 @@ const onReady = function onReadyFunction() {
       });
   }
 
-  // Adiciona método de validação para email
-  $.validator.addMethod(
-    "emailStrict",
-    function validateEmailStrict(value, element) {
-      return (
-        this.optional(element) ||
-        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]{3,}|\.com\.br)$/.test(
-          value
-        )
-      );
-    },
-    "Por favor, informe um endereço de email válido."
-  );
-
   // Evento para capitalizar o nome ao sair do campo
   $("#nome").on("blur", function onNomeBlur() {
     const trimmedValue = $(this).val().trim(); // Adicione esta linha para remover os espaços extras
     const capitalized = capitalizeName(trimmedValue); // Altere '$(this).val()' para 'trimmedValue'
     $(this).val(capitalized);
   });
+
+  // Adiciona método de validação para email
+  $.validator.addMethod(
+    "emailStrict",
+    function validateEmailStrict(value, element) {
+      return (
+        this.optional(element) ||
+        /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(value)
+      );
+    },
+    "Por favor, informe um endereço de email válido."
+  );
+
+  // Máscara do telefone
+  const SPMaskBehavior = function maskBehavior(val) {
+    return val.replace(/\D/g, "").length === 11
+      ? "(00) 0 0000-0000"
+      : "(00) 0000-00009";
+  };
+
+  const spOptions = {
+    onKeyPress(val, e, field, options) {
+      field.mask(SPMaskBehavior(val), options);
+    },
+  };
+
+  // Aplica a máscara ao campo telefone
+  $("#telefone").mask(SPMaskBehavior, spOptions);
 
   // Adiciona método de validação para mensagem mínima
   $.validator.addMethod(
