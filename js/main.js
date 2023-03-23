@@ -54,7 +54,9 @@ const onReady = function onReadyFunction() {
     function validateEmailStrict(value, element) {
       return (
         this.optional(element) ||
-        /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(value)
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]{3,}|\.com\.br)$/.test(
+          value
+        )
       );
     },
     "Por favor, informe um endereço de email válido."
