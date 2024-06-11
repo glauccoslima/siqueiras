@@ -113,43 +113,24 @@ const onReady = function onReadyFunction() {
     }
   };
 
-  // Função de rolagem suave manual
-  function smoothScroll(id) {
-    // Define o passo e a velocidade da rolagem
-    const step = 50;
-    const speed = 100;
-    // Posição atual de rolagem e alvo
-    let now = window.scrollY;
-    const to = document.getElementById(id).offsetTop;
-
-    // Função para rolar para baixo
-    const rollDown = () => {
-      now += step;
-      if (now > to) { now = to; } // Checa se atingiu a posição alvo
-      window.scroll({ top: now });
-      if (now < to) { window.setTimeout(rollDown, speed); }
-    };
-
-    // Função para rolar para cima
-    const rollUp = () => {
-      now -= step;
-      if (now < to) { now = to; } // Checa se atingiu a posição alvo
-      window.scroll({ top: now });
-      if (now > to) { window.setTimeout(rollUp, speed); }
-    };
-
-    // Inicia a rolagem baseada na posição atual
-    if (to > now) { rollDown(); }
-    else { rollUp(); }
+  // Função de rolagem suave com duração em segundos
+  function smoothScroll(target, durationInSeconds) {
+    const durationInMilliseconds = durationInSeconds * 1000; // Converte segundos para milissegundos
+    $('html, body').stop().animate(
+      {
+        scrollTop: $(target).offset().top - $('.navbar').outerHeight(),
+      },
+      durationInMilliseconds, // Duração da animação em milissegundos
+      'easeInOutCubic' // Função de easing para suavizar a rolagem
+    );
   }
 
   // Evento de clique nos links da navegação
-  document.querySelectorAll('a[data-bs-smooth-scroll="true"]').forEach(anchor => {
-    anchor.addEventListener('click', function(event) {
-      event.preventDefault();
-      const targetId = this.getAttribute('href').substring(1);
-      smoothScroll(targetId);
-    });
+  $('a[data-bs-smooth-scroll="true"]').on('click', function(event) {
+    event.preventDefault();
+    const targetId = $(this).attr('href');
+    const durationInSeconds = 1; // Duração da rolagem em segundos
+    smoothScroll(targetId, durationInSeconds);
   });
 
   // Atualiza os links ativos da navegação
@@ -161,3 +142,9 @@ const onReady = function onReadyFunction() {
 
 // Executa a função onReady quando o DOM estiver pronto
 jQuery(onReady);
+
+// Adiciona a função de easing personalizada ao jQuery
+jQuery.easing['easeInOutCubic'] = function(x, t, b, c, d) {
+  if ((t /= d / 2) < 1) return c / 2 * t * t * t + b;
+  return c / 2 * ((t -= 2) * t * t + 2) + b;
+};
