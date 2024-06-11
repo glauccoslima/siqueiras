@@ -11,20 +11,11 @@ const onReady = function onReadyFunction() {
   // Função para capitalizar nomes
   function capitalizeName(name) {
     const prepositionsAndArticles = [
-      "e",
-      "da",
-      "de",
-      "do",
-      "das",
-      "dos",
-      "a",
-      "an",
-      "and",
-      "the",
+      "e", "da", "de", "do", "das", "dos", "a", "an", "and", "the"
     ];
     return name
       .toLowerCase()
-      .replace(/\b\w+/g, function capitalizeWord(word, index) {
+      .replace(/\b\w+/g, (word, index) => {
         if (prepositionsAndArticles.includes(word) && index !== 0) {
           return word;
         }
@@ -33,9 +24,9 @@ const onReady = function onReadyFunction() {
   }
 
   // Evento para capitalizar o nome ao sair do campo
-  $("#nome").on("blur", function onNomeBlur() {
-    const trimmedValue = $(this).val().trim(); // Adicione esta linha para remover os espaços extras
-    const capitalized = capitalizeName(trimmedValue); // Altere '$(this).val()' para 'trimmedValue'
+  $("#nome").on("blur", function() {
+    const trimmedValue = $(this).val().trim();
+    const capitalized = capitalizeName(trimmedValue);
     $(this).val(capitalized);
   });
 
@@ -43,19 +34,14 @@ const onReady = function onReadyFunction() {
   $.validator.addMethod(
     "emailStrict",
     function validateEmailStrict(value, element) {
-      return (
-        this.optional(element) ||
-        /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(value)
-      );
+      return this.optional(element) || /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(value);
     },
     "Por favor, informe um endereço de email válido."
   );
 
   // Máscara do telefone
-  const SPMaskBehavior = function maskBehavior(val) {
-    return val.replace(/\D/g, "").length === 11
-      ? "(00) 0 0000-0000"
-      : "(00) 0000-00009";
+  const SPMaskBehavior = (val) => {
+    return val.replace(/\D/g, "").length === 11 ? "(00) 0 0000-0000" : "(00) 0000-00009";
   };
 
   const spOptions = {
@@ -80,46 +66,27 @@ const onReady = function onReadyFunction() {
   // Configura o plugin de validação
   $("#meuFormulario").validate({
     rules: {
-      nome: {
-        required: true,
-        nomeCompleto: true,
-      },
-      email: {
-        required: true,
-        emailStrict: true,
-      },
-      telefone: {
-        minlength: 14,
-      },
-      mensagem: {
-        required: true,
-        mensagemMinima: true,
-      },
+      nome: { required: true, nomeCompleto: true },
+      email: { required: true, emailStrict: true },
+      telefone: { minlength: 14 },
+      mensagem: { required: true, mensagemMinima: true }
     },
-    messages: {
-      telefone: "Por favor, informe o número de telefone ou celular.",
-    },
-    // Destaca elementos inválidos
+    messages: { telefone: "Por favor, informe o número de telefone ou celular." },
     highlight(element) {
       $(element).addClass("is-invalid").removeClass("is-valid");
     },
-    // Remove o destaque dos elementos válidos
     unhighlight(element) {
       $(element).addClass("is-valid").removeClass("is-invalid");
     },
-    // Ação a ser realizada quando o formulário for enviado com sucesso
     submitHandler(form) {
-      // Exibe a mensagem de sucesso
       $("#success-message").fadeIn(500).delay(7000).fadeOut(500);
-      // Reseta o formulário
       $(form)[0].reset();
-      // Remove as classes de validação dos campos do formulário
       $(form).find(".is-valid, .is-invalid").removeClass("is-valid is-invalid");
-    },
+    }
   });
 
   // Atualiza os links ativos da navegação
-  const updateActiveNavLinks = function updateActiveNavLinksFunction() {
+  const updateActiveNavLinks = () => {
     const scrollPos = $(document).scrollTop() + 1;
     const windowHeight = $(window).height();
     const documentHeight = $(document).height();
@@ -132,7 +99,7 @@ const onReady = function onReadyFunction() {
     if (isNearBottom || scrollPos >= lastTargetTop) {
       lastNavLink.addClass("active");
     } else {
-      $('a[data-bs-smooth-scroll="true"]').each(function updateNavLink() {
+      $('a[data-bs-smooth-scroll="true"]').each(function() {
         const target = $(this.getAttribute("href"));
         const targetTop = target.offset().top - headerHeight;
         const targetBottom = targetTop + target.outerHeight();
@@ -142,42 +109,48 @@ const onReady = function onReadyFunction() {
           $(this).addClass("active");
           return false; // Encerra o loop each
         }
-        return true;
       });
     }
   };
 
+  // Função de rolagem suave manual
+  function smoothScroll(id) {
+    // Define o passo e a velocidade da rolagem
+    const step = 50;
+    const speed = 100;
+    // Posição atual de rolagem e alvo
+    let now = window.scrollY;
+    const to = document.getElementById(id).offsetTop;
+
+    // Função para rolar para baixo
+    const rollDown = () => {
+      now += step;
+      if (now > to) { now = to; } // Checa se atingiu a posição alvo
+      window.scroll({ top: now });
+      if (now < to) { window.setTimeout(rollDown, speed); }
+    };
+
+    // Função para rolar para cima
+    const rollUp = () => {
+      now -= step;
+      if (now < to) { now = to; } // Checa se atingiu a posição alvo
+      window.scroll({ top: now });
+      if (now > to) { window.setTimeout(rollUp, speed); }
+    };
+
+    // Inicia a rolagem baseada na posição atual
+    if (to > now) { rollDown(); }
+    else { rollUp(); }
+  }
+
   // Evento de clique nos links da navegação
-  $('a[data-bs-smooth-scroll="true"]').on(
-    "click",
-    function onClickNavLink(event) {
+  document.querySelectorAll('a[data-bs-smooth-scroll="true"]').forEach(anchor => {
+    anchor.addEventListener('click', function(event) {
       event.preventDefault();
-      const target = $($(this).attr("href"));
-      const headerHeight = $(".navbar").outerHeight();
-
-      // Adicione um valor de ajuste (positivo ou negativo) para a posição de rolagem
-      const adjustment = 0; // Ajuste este valor conforme necessário
-
-      if (target.length) {
-        const distance = Math.abs(
-          target.offset().top - headerHeight - $(window).scrollTop()
-        );
-        const speed = 500; // Ajuste este valor para alterar a velocidade de rolagem (pixels por segundo)
-        const animationTime = (distance / speed) * 1000;
-
-        $("html, body")
-          .stop()
-          .animate(
-            {
-              // Adicione o valor de ajuste à posição de rolagem
-              scrollTop: target.offset().top - headerHeight + adjustment,
-            },
-            animationTime,
-            "easeOutSine" // Função de easing para uma animação mais suave
-          );
-      }
-    }
-  );
+      const targetId = this.getAttribute('href').substring(1);
+      smoothScroll(targetId);
+    });
+  });
 
   // Atualiza os links ativos da navegação
   updateActiveNavLinks();
